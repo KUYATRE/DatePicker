@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     var count = 0
     var alarmTime: String?
     var currentTime: String?
+    var isAlertEnable = true
     
     @IBOutlet var lblCurrentTime: UILabel!
     @IBOutlet var lblPickerTime: UILabel!
@@ -48,10 +49,22 @@ class ViewController: UIViewController {
         alarmFormatter.dateFormat = "HH:mm"
         currentTime = alarmFormatter.string(from: date as Date)
         
+        
         if (alarmTime == currentTime) {
             view.backgroundColor = UIColor.red
+            if isAlertEnable {
+                let timeMatchAlert = UIAlertController(title: "알림", message: "설정한 시간입니다!!!", preferredStyle: UIAlertController.Style.alert)
+                let matchAction = UIAlertAction(title: "네, 알겠습니다", style: UIAlertAction.Style.default, handler: {
+                    ACTION in self.isAlertEnable = false
+                })
+                
+                timeMatchAlert.addAction(matchAction)
+                
+                present(timeMatchAlert, animated: true, completion: nil)
+            }
         } else {
             view.backgroundColor = UIColor.white
+            isAlertEnable = true
         }
     }
     
